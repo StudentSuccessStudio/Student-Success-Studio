@@ -1,6 +1,17 @@
 import { GoogleGenAI, Type } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+let aiInstance: GoogleGenAI | null = null;
+
+function getAI() {
+  if (!aiInstance) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not defined. Please check your environment settings.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+}
 
 export interface AnalysisResult {
   actionableItems: string[];
@@ -9,10 +20,12 @@ export interface AnalysisResult {
 
 export async function analyzeThoughts(thoughts: string): Promise<AnalysisResult> {
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: thoughts,
-      config: {
+    const ai = getAI();
+    const model = ai.getGenerativeModel({ model: "gemini-3-flash-preview" });
+    
+    const response = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: thoughts }] }],
+      generationConfig: {
         systemInstruction: `You are the "Student Success Studio Plus" mentor. Analyze the user's "mind dump" to identify paths to success.
         Categorize thoughts into two groups:
         1. "Actionable Items": Immediate tasks the user can control to build momentum ("Micro-Wins").
@@ -38,7 +51,7 @@ export async function analyzeThoughts(thoughts: string): Promise<AnalysisResult>
       }
     });
 
-    const text = response.text;
+    const text = response.response.text();
     if (!text) throw new Error("No response from AI");
     return JSON.parse(text) as AnalysisResult;
   } catch (error) {
@@ -73,10 +86,12 @@ export interface CareerResumeTasks {
 
 export async function solveChaos(stress: string): Promise<ZenithActionPlan> {
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: stress,
-      config: {
+    const ai = getAI();
+    const model = ai.getGenerativeModel({ model: "gemini-3-flash-preview" });
+
+    const response = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: stress }] }],
+      generationConfig: {
         systemInstruction: `Role: You are the "Student Success Studio Plus" Sidebar Intelligence. You manage destinies, not just tasks.
  
         Core Pillars:
@@ -125,7 +140,7 @@ export async function solveChaos(stress: string): Promise<ZenithActionPlan> {
       }
     });
 
-    const text = response.text;
+    const text = response.response.text();
     if (!text) throw new Error("No response");
     const data = JSON.parse(text);
     return {
@@ -161,10 +176,12 @@ export async function solveChaos(stress: string): Promise<ZenithActionPlan> {
 
 export async function generateResumeTasks(fear: string): Promise<CareerResumeTasks> {
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: fear,
-      config: {
+    const ai = getAI();
+    const model = ai.getGenerativeModel({ model: "gemini-3-flash-preview" });
+
+    const response = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: fear }] }],
+      generationConfig: {
         systemInstruction: `You are the "Student Success Studio Plus" Career Navigator. Take a career fear and transform it into 5 tactical "Dream Foundation" tasks for an unstoppable resume.
         Return as JSON.`,
         responseMimeType: "application/json",
@@ -178,7 +195,7 @@ export async function generateResumeTasks(fear: string): Promise<CareerResumeTas
       }
     });
 
-    const text = response.text;
+    const text = response.response.text();
     if (!text) throw new Error("No response");
     return { fear, ...JSON.parse(text) };
   } catch (error) {
