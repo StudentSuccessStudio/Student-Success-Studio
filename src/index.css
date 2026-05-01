@@ -1,0 +1,321 @@
+/* 
+  Author: Fatima Zahra Zouhair 
+  Theme: Messy Beautiful 
+*/
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Quicksand", serif;
+  --color-mint: #E0F2F1;
+  --color-peach: #FFF3E0;
+  --color-sky-blue: #E3F2FD;
+  --color-sunflower: #FFF9C4;
+  --color-zenith-gold: #FFC107;
+}
+
+:root {
+  --color-peach: #FFF3E0;
+  --color-mint: #E0F2F1;
+  --color-cream: #F9F9F9;
+  --color-amber: #FFF8E1;
+  --color-zenith-gold: #FFC107;
+  --color-zenith-gold-glow: rgba(255, 193, 7, 0.4);
+  --heading-color: #1B1B3A;
+  --title-color: #1B1B3A;
+  --charcoal: #1B1B3A;
+  --indigo-text: #1B1B3A;
+  --forest-green: #1B1B3A;
+  --espresso: #1B1B3A;
+  --obsidian: #1B1B3A;
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --sun-glow: 0 0 15px rgba(255, 203, 0, 0.6);
+}
+
+.dark {
+  --color-mint: #0f172a;
+  --color-sky: #1e293b;
+  --color-lavender: #334155;
+  --heading-color: #f8fafc;
+  --title-color: #4F46E5; /* Indigo instead of Purple */
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  @apply bg-slate-50 text-[#1B1B3A] font-sans transition-colors duration-200 overflow-x-hidden;
+  margin: 0;
+  min-height: 100vh;
+}
+
+h1, h2, h3 {
+  color: var(--heading-color);
+  transition: color 0.2s ease;
+}
+
+.mesh-gradient {
+  background: #F2F2F2;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+.mesh-gradient::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(circle, #4F46E520 0%, transparent 70%);
+  filter: blur(140px);
+  opacity: 0.6;
+  z-index: 0;
+  pointer-events: none;
+  animation: auraFloat 30s ease-in-out infinite alternate;
+}
+
+.mesh-gradient::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  left: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, #6366F120 0%, transparent 70%);
+  filter: blur(140px);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+  animation: auraFloat 35s ease-in-out infinite alternate-reverse;
+}
+
+.mesh-gradient::before, .mesh-gradient::after {
+  content: "";
+  position: absolute;
+}
+
+.mesh-gradient-extra {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #E3F2FD 0%, transparent 60%);
+  filter: blur(150px);
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+  animation: auraFloat 40s ease-in-out infinite alternate;
+}
+
+@keyframes auraFloat {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33% { transform: translate(2%, 4%) scale(1.05) rotate(2deg); }
+  66% { transform: translate(-2%, 2%) scale(1.02) rotate(-1deg); }
+  100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+}
+
+@keyframes drifting {
+  0% { transform: translate(0, 0) opacity(0.3); }
+  50% { transform: translate(100px, -100px) opacity(0.6); }
+  100% { transform: translate(200px, 0) opacity(0.3); }
+}
+
+.floating-particle {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  filter: blur(2px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.grain-texture {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0.015; /* ~1% noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.glass-card {
+  @apply backdrop-blur-[25px] rounded-[3.5rem] border-[1.5px] transition-all duration-700 overflow-hidden;
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 
+    0 40px 100px -20px rgba(27, 27, 58, 0.08),
+    0 20px 40px -10px rgba(0, 0, 0, 0.02),
+    inset 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+.card-title {
+  color: var(--forest-green);
+}
+
+.dark .card-title {
+  color: var(--heading-color);
+}
+
+.title-main {
+  color: var(--title-color);
+  @apply font-serif font-bold transition-all duration-200;
+}
+
+@media (max-width: 640px) {
+  .title-main {
+    color: var(--title-color) !important;
+    font-weight: 800 !important;
+  }
+}
+
+.light-glow {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.hover-title {
+  @apply transition-all duration-200 cursor-default;
+}
+
+.hover-title:hover {
+  color: #1B1B3A !important;
+  opacity: 0.7;
+  transform: scale(1.02);
+}
+
+@keyframes success-flash {
+  0% { color: inherit; }
+  50% { color: #059669; }
+  100% { color: inherit; }
+}
+
+.animate-success {
+  animation: success-flash 1s ease-in-out;
+}
+
+.btn-zenith {
+  background-color: #1B1B3A;
+  color: #FFF3E0;
+  @apply transition-all duration-200 border-none;
+}
+
+.dark .btn-zenith {
+  background-color: #fdfcf0;
+  color: var(--charcoal);
+}
+
+.btn-zenith:hover {
+  transform: scale(1.02);
+  filter: brightness(1.2);
+}
+
+/* Subtle Signatures */
+.fine-print {
+  @apply text-[10px] sm:text-xs text-[#27272a] opacity-60 font-sans tracking-wide;
+}
+
+.clothing-label {
+  @apply px-4 py-2 bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/60 dark:border-white/5 rounded-sm shadow-sm opacity-50 hover:opacity-100 transition-opacity;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.hidden-credit {
+  @apply italic font-serif opacity-40 text-sm;
+}
+
+.monogram-fzz {
+  @apply text-[10px] font-extralight tracking-[0.2em] text-slate-400 dark:text-slate-500 uppercase select-none;
+}
+
+.wave-signature {
+  @apply w-full fill-slate-100 dark:fill-slate-900 border-t border-slate-200 dark:border-slate-800;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+}
+
+.animate-breathe {
+  animation: breathe 8s ease-in-out infinite;
+}
+
+.stone-marker {
+  @apply w-4 h-3.5 bg-[#CBD5E1] dark:bg-slate-400 rounded-full border border-slate-300 dark:border-slate-500;
+  box-shadow: 
+    inset 2px 2px 4px rgba(255,255,255,0.8),
+    inset -2px -2px 4px rgba(0,0,0,0.1),
+    0 4px 8px rgba(0,0,0,0.1);
+  transform: rotate(-15deg);
+}
+
+.animate-stone-breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.joyful-signature {
+  @apply text-xs md:text-sm font-sans tracking-[0.15em] text-[#1B1B3A] dark:text-indigo-200 opacity-60 mt-12 text-center flex items-center justify-center gap-2;
+}
+
+.sun-pulse {
+  @apply text-amber-500;
+  filter: drop-shadow(var(--sun-glow));
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.plus-floating-bar {
+  @apply fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-4xl p-1 rounded-[2rem] transition-all duration-500 overflow-hidden;
+  background: linear-gradient(135deg, #1B1B3A 0%, #4F46E5 50%, #6366F1 100%);
+  box-shadow: 0 20px 50px rgba(79, 70, 229, 0.3), 0 0 20px rgba(126, 34, 206, 0.2);
+}
+
+.plus-floating-bar:hover {
+  @apply bottom-8 scale-[1.02];
+  box-shadow: 0 30px 60px rgba(79, 70, 229, 0.4), 0 0 30px rgba(126, 34, 206, 0.3);
+}
+
+.plus-floating-bar::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: rotate 8s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.plus-inner {
+  @apply relative z-10 bg-[#1B1B3A]/80 dark:bg-black/40 backdrop-blur-3xl rounded-[1.8rem] p-3 flex flex-col sm:flex-row items-center justify-between gap-4 border border-white/10;
+}
+
+.plus-input {
+  @apply bg-white/5 border border-white/10 rounded-xl px-6 py-3 text-white placeholder:text-white/30 outline-none focus:ring-4 focus:ring-indigo-500/20 transition-all text-sm flex-1 w-full flex items-center gap-3;
+}
+
+.plus-btn {
+  @apply bg-white text-[#1B1B3A] font-bold text-[10px] uppercase tracking-widest px-8 py-3.5 rounded-xl hover:bg-slate-100 active:scale-95 transition-all shadow-xl shrink-0 whitespace-nowrap flex items-center gap-2;
+}
+
+.plus-logo {
+  @apply flex items-center gap-3 px-4 shrink-0;
+}
+
+.plus-badge {
+  @apply px-2 py-0.5 bg-indigo-500 text-white text-[8px] font-black rounded-full;
+}

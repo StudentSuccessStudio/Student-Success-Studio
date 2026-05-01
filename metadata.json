@@ -1,0 +1,8 @@
+{
+  "name": "Student Success Studio Plus",
+  "description": "Your Academic & Life Success partner. A high-performance sanctuary for students to declutter their minds, navigate career dreams with AI, and achieve total success through micro-wins.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
